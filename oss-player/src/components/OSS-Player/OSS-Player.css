@@ -1,150 +1,228 @@
+/* =========================================
+   WRAPPER PRINCIPAL & VIDEO
+   ========================================= */
 .oss-player-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 800px;
-  background: #000;
-  cursor: pointer;
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    background: #000;
+    cursor: pointer;
 }
 
 .oss-player-wrapper video {
-  width: 100%;
-  display: block;
+    width: 100%;
+    display: block;
 }
 
+/* =========================================
+   CONTAINER DE CONTROLES
+   ========================================= */
 .controls {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-image: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
-  padding: 10px 15px;
-  box-sizing: border-box;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  display: flex;
-  flex-direction: column;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-image: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
+    padding: 10px 15px;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
 }
 
 .oss-player-wrapper:hover .controls {
-  opacity: 1;
+    opacity: 1;
 }
 
+/* =========================================
+   BOTÕES GERAIS
+   ========================================= */
 .controls button {
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  padding: 0;
-  outline: none; 
-  margin: 0 8px;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    margin: 0 8px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
 }
 
 .controls button:hover {
-  color: #c9c9c9;
+    color: #c9c9c9;
 }
 
+/* =========================================
+   BARRA DE PROGRESSO
+   ========================================= */
 .progress-bar-container {
-  width: 100%;
-  height: 5px;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 5px;
-  cursor: pointer;
-  margin-bottom: 10px;
+    width: 100%;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
 }
 
 .progress-bar-filled {
-  height: 100%;
-  background: #fff;
-  border-radius: 5px;
+    height: 100%;
+    background: #fff;
+    border-radius: 5px;
 }
 
+/* =========================================
+   LAYOUT (ESQUERDA / CENTRO / DIREITA)
+   ========================================= */
 .bottom-controls {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .controls-left {
-  display: flex;
-  align-items: center;
-  flex: 1; 
+    display: flex;
+    align-items: center;
+    flex: 1;
 }
 
 .controls-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
 }
 
 .controls-right {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1;
 }
 
+/* =========================================
+   DISPLAY DE TEMPO
+   ========================================= */
 .time-display {
-  color: #fff;
-  font-size: 14px;
-  margin-left: 5px;
+    color: #fff;
+    font-size: 14px;
+    margin-left: 5px;
 }
 
+/* =========================================
+   VOLUME CONTROL
+   ========================================= */
 .volume-control-wrapper {
-  display: flex;
-  align-items: center;
-  position: relative; 
+    display: flex;
+    align-items: center;
+    position: relative;
 }
 
 .volume-slider {
-  -webkit-appearance: none;
-  appearance: none;
-  height: 5px;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 5px;
-  outline: none;
-  cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
 
-  position: absolute;
-  left: 100%;
-  top: 0;
-  bottom: 0;
-  margin-top: auto;
-  margin-bottom: auto;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    bottom: 0;
+    margin-top: auto;
+    margin-bottom: auto;
 
-  width: 0;
-  opacity: 0;
-  visibility: hidden;
-  margin-left: 0;
-  transition: all 0.3s ease-in-out;
+    width: 0;
+    opacity: 0;
+    visibility: hidden;
+    margin-left: 0;
+    transition: all 0.3s ease-in-out;
 }
 
 .volume-control-wrapper:hover .volume-slider {
-  width: 100px;
-  opacity: 1;
-  visibility: visible;
-  margin-left: 8px;
+    width: 100px;
+    opacity: 1;
+    visibility: visible;
+    margin-left: 8px;
 }
 
 .volume-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 14px;
-  height: 14px;
-  background: #fff;
-  border-radius: 50%;
-  cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 .volume-slider::-moz-range-thumb {
-  width: 14px;
-  height: 14px;
-  background: #fff;
-  border-radius: 50%;
-  cursor: pointer;
-  border: none;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+
+/* =========================================
+   SPEED CONTROL
+   ========================================= */
+.speed-control-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+}
+
+.speed-button {
+    font-size: 14px !important;
+    font-weight: bold;
+    width: 40px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.speed-menu {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 5px;
+    padding: 5px 0;
+    margin: 0 0 10px 0;
+    list-style: none;
+
+    display: flex;
+    flex-direction: column;
+    min-width: 80px;
+    z-index: 10;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.speed-menu li {
+    color: #fff;
+    padding: 8px 15px;
+    font-size: 13px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.2s;
+}
+
+.speed-menu li:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.speed-menu li.active {
+    color: #4facfe;
+    font-weight: bold;
 }
