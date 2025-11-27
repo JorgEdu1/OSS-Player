@@ -9,7 +9,7 @@ function App() {
     <>
       <h1>Testando o OSS-Player!</h1>
       
-      <OssPlayer src={meuVideo} showSpeedControl={false} />
+      <OssPlayer src={meuVideo} showSpeedControl={true} />
     </>
   )
 }
