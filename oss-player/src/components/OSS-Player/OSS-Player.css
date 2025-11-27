@@ -144,7 +144,8 @@
     transition: all 0.3s ease-in-out;
 }
 
-.volume-control-wrapper:hover .volume-slider {
+.volume-control-wrapper:hover .volume-slider,
+.volume-slider.force-visible {
     width: 100px;
     opacity: 1;
     visibility: visible;
