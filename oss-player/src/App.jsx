@@ -1,7 +1,7 @@
 import React from 'react'
 import { OssPlayer } from './components/OSS-Player/OSS-Player'
 import './App.css'
-import meuVideo from './assets/video/SORRI, SOU REI - Harry - Brega do Bruxo.mp4'
+import meuVideo from './assets/meu-video.mp4'
 
 function App() {
   

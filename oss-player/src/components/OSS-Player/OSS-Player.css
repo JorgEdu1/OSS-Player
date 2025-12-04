@@ -7,6 +7,10 @@
     max-width: 800px;
     background: #000;
     cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .oss-player-wrapper video {
@@ -226,4 +230,15 @@
 .speed-menu li.active {
     color: #4facfe;
     font-weight: bold;
+}
+
+/* --- SKIP BUTTONS --- */
+.skip-buttons-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.skip-buttons-wrapper button {
+  font-size: 22px;
+  margin: 0 5px;
 }
