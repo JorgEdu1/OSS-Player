@@ -227,3 +227,14 @@
     color: #4facfe;
     font-weight: bold;
 }
+
+/* --- SKIP BUTTONS --- */
+.skip-buttons-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.skip-buttons-wrapper button {
+  font-size: 22px;
+  margin: 0 5px;
+}

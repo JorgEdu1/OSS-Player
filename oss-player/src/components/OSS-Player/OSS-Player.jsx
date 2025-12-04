@@ -33,6 +33,13 @@ export const OssPlayer = ({
         }
     }, []);
 
+    const handleSkip = useCallback((amount) => {
+    if (videoRef.current) {
+      videoRef.current.currentTime += amount;
+      setCurrentTime(videoRef.current.currentTime);
+    }
+  }, []);
+
     const handleDurationChange = () => {
         if (videoRef.current) {
             setDuration(videoRef.current.duration);
@@ -150,16 +157,12 @@ export const OssPlayer = ({
 
                 case 'arrowright':
                     e.preventDefault();
-                    if (videoRef.current) {
-                        videoRef.current.currentTime += 5;
-                    }
+                    handleSkip(5);
                     break;
 
                 case 'arrowleft':
                     e.preventDefault();
-                    if (videoRef.current) {
-                        videoRef.current.currentTime -= 5;
-                    }
+                    handleSkip(-5);
                     break;
 
                 case 'arrowup':
@@ -195,6 +198,7 @@ export const OssPlayer = ({
         volume,
         isVolumeControlVisible,
         handlePlayPause,
+        handleSkip,
         handleDurationChange,
         handleTimeUpdate,
         handleSeek,
