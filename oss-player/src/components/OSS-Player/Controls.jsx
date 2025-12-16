@@ -8,6 +8,7 @@ import { TimeDisplay } from './TimeDisplay';
 import { SpeedControl } from './SpeedControl'; 
 import { SubtitlesButton } from './SubtitlesButton';
 import { SkipButtons } from './SkipButtons';
+import { PipButton } from './PipButton';
 
 export const Controls = ({ showSpeedControl }) => {
   const { stopPropagation, showSubtitles, subtitlesSrc } = usePlayer();
@@ -40,7 +41,7 @@ export const Controls = ({ showSpeedControl }) => {
           {showSubtitles && subtitlesSrc && (
             <SubtitlesButton />
           )}
-
+          <PipButton />
           <FullscreenButton />
         </div>
       </div>

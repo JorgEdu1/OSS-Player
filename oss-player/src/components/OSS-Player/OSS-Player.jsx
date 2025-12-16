@@ -22,6 +22,7 @@ export const OssPlayer = ({
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [volume, setVolume] = useState(1);
     const [isVolumeControlVisible, setIsVolumeControlVisible] = useState(false);
+    const [isPip, setIsPip] = useState(false)
 
     const handlePlayPause = useCallback(() => {
         if (videoRef.current.paused) {
@@ -34,11 +35,25 @@ export const OssPlayer = ({
     }, []);
 
     const handleSkip = useCallback((amount) => {
-    if (videoRef.current) {
-      videoRef.current.currentTime += amount;
-      setCurrentTime(videoRef.current.currentTime);
-    }
-  }, []);
+        if (videoRef.current) {
+            videoRef.current.currentTime += amount;
+            setCurrentTime(videoRef.current.currentTime);
+        }
+    }, []);
+
+    const handlePipToggle = useCallback(async () => {
+        try {
+            if (document.pictureInPictureElement) {
+                await document.exitPictureInPicture();
+                setIsPip(false);
+            } else if (videoRef.current) {
+                await videoRef.current.requestPictureInPicture();
+                setIsPip(true);
+            }
+        } catch (error) {
+            console.error("Erro ao ativar PiP:", error);
+        }
+    }, []);
 
     const handleDurationChange = () => {
         if (videoRef.current) {
@@ -128,9 +143,25 @@ export const OssPlayer = ({
         const handleFullscreenChange = () => {
             setIsFullscreen(!!document.fullscreenElement);
         };
+        const handlePipChange = () => {
+            setIsPip(!!document.pictureInPictureElement);
+        };
+
         document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+        const videoEl = videoRef.current;
+
+        if (videoEl) {
+            videoEl.addEventListener('enterpictureinpicture', handlePipChange);
+            videoEl.addEventListener('leavepictureinpicture', handlePipChange);
+        }
+
         return () => {
             document.removeEventListener('fullscreenchange', handleFullscreenChange);
+            if (videoEl) {
+                videoEl.removeEventListener('enterpictureinpicture', handlePipChange);
+                videoEl.removeEventListener('leavepictureinpicture', handlePipChange);
+            }
         };
     }, []);
 
@@ -153,6 +184,10 @@ export const OssPlayer = ({
 
                 case 'm':
                     handleMuteToggle();
+                    break;
+
+                case 'p':
+                    handlePipToggle();
                     break;
 
                 case 'arrowright':
@@ -195,10 +230,12 @@ export const OssPlayer = ({
         duration,
         progress,
         isFullscreen,
+        isPip,
         volume,
         isVolumeControlVisible,
         handlePlayPause,
         handleSkip,
+        handlePipToggle,
         handleDurationChange,
         handleTimeUpdate,
         handleSeek,
