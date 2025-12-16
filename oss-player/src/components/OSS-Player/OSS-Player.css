@@ -34,10 +34,19 @@
     transition: opacity 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s;
 }
 
-.oss-player-wrapper:hover .controls {
-    opacity: 1;
+.oss-player-wrapper.controls-visible .controls {
+  opacity: 1;
+  visibility: visible;
+  cursor: default;
+}
+
+.oss-player-wrapper.controls-hidden {
+  cursor: none;
 }
 
 /* =========================================

@@ -20,6 +20,7 @@ export const OssPlayer = ({
     const playerWrapperRef = useRef(null);
     const lastVolumeRef = useRef(1);
     const volumeTimeoutRef = useRef(null);
+    const controlsTimeoutRef = useRef(null);
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
@@ -36,7 +37,26 @@ export const OssPlayer = ({
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [isVolumeControlVisible, setIsVolumeControlVisible] = useState(false);
     const [isPip, setIsPip] = useState(false)
+    const [showControls, setShowControls] = useState(true);
 
+    const handleInteraction = () => {
+        setShowControls(true);
+
+        if (controlsTimeoutRef.current) {
+            clearTimeout(controlsTimeoutRef.current);
+        }
+        if (!videoRef.current?.paused) {
+            controlsTimeoutRef.current = setTimeout(() => {
+            setShowControls(false);
+            }, 2500);
+        }
+    };
+
+    const handleMouseLeave = () => {
+        if (!videoRef.current?.paused) {
+            setShowControls(false);
+        }
+    };
 
     const handlePlayPause = useCallback(() => {
         if (videoRef.current.paused) {
@@ -154,13 +174,16 @@ export const OssPlayer = ({
     const handleMuteToggle = useCallback(() => {
         if (volume > 0) {
             lastVolumeRef.current = volume;
-            // Reutiliza updateVolume para garantir a animação
             updateVolume(0);
         } else {
             const newVolume = lastVolumeRef.current > 0 ? lastVolumeRef.current : 1;
             updateVolume(newVolume);
         }
     }, [volume, updateVolume]);
+
+    useEffect(() => {
+        handleInteraction();
+    }, [isPlaying]);
 
     useEffect(() => {
         const handleFullscreenChange = () => {
@@ -276,10 +299,13 @@ export const OssPlayer = ({
     return (
         <PlayerContext.Provider value={providerValue}>
             <div
-                className="oss-player-wrapper"
+                className={`oss-player-wrapper ${showControls ? 'controls-visible' : 'controls-hidden'}`}
                 onClick={handleVideoClick}
                 ref={playerWrapperRef}
                 onDoubleClick={handleFullscreen}
+                onMouseMove={handleInteraction}
+                onMouseLeave={handleMouseLeave}
+                onTouchStart={handleInteraction}
                 style={{ '--oss-primary': primaryColor }}
             >
                 <video
