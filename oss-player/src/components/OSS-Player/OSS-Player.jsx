@@ -7,7 +7,8 @@ export const OssPlayer = ({
                               src,
                               showSpeedControl = true,
                               showSubtitles = true,
-                              subtitlesSrc = null
+                              subtitlesSrc = null,
+                              primaryColor = "#df262fff"
                           }) => {
 
     const videoRef = useRef(null);
@@ -255,6 +256,7 @@ export const OssPlayer = ({
                 onClick={handleVideoClick}
                 ref={playerWrapperRef}
                 onDoubleClick={handleFullscreen}
+                style={{ '--oss-primary': primaryColor }}
             >
                 <video
                     ref={videoRef}
