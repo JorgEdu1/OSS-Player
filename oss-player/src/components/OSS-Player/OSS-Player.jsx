@@ -5,7 +5,8 @@ import { Controls } from './Controls';
 
 const STORAGE_KEYS = {
   VOLUME: 'oss-player-volume',
-  SPEED: 'oss-player-speed'
+  SPEED: 'oss-player-speed',
+  QUALITY: 'oss-player-quality'
 };
 
 export const OssPlayer = ({
@@ -21,6 +22,10 @@ export const OssPlayer = ({
     const lastVolumeRef = useRef(1);
     const volumeTimeoutRef = useRef(null);
     const controlsTimeoutRef = useRef(null);
+
+    const [qualities, setQualities] = useState([]);
+    const [currentQuality, setCurrentQuality] = useState(null);
+    const [currentSrc, setCurrentSrc] = useState('');
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
@@ -38,6 +43,30 @@ export const OssPlayer = ({
     const [isVolumeControlVisible, setIsVolumeControlVisible] = useState(false);
     const [isPip, setIsPip] = useState(false)
     const [showControls, setShowControls] = useState(true);
+
+   useEffect(() => {
+        if (Array.isArray(src)) {
+        setQualities(src);
+
+        const savedLabel = localStorage.getItem(STORAGE_KEYS.QUALITY);
+        
+        let initialQuality = src[0];
+
+        if (savedLabel) {
+            const found = src.find(q => q.label === savedLabel);
+            if (found) {
+            initialQuality = found;
+            }
+        }
+
+        setCurrentQuality(initialQuality);
+        setCurrentSrc(initialQuality.url);
+        
+        } else {
+            setQualities([]); 
+            setCurrentSrc(src); 
+        }
+    }, [src]);
 
     const handleInteraction = () => {
         setShowControls(true);
@@ -81,6 +110,28 @@ export const OssPlayer = ({
             videoRef.current.currentTime += amount;
             setCurrentTime(videoRef.current.currentTime);
         }
+    }, []);
+
+    const handleChangeQuality = useCallback((qualityObj) => {
+        if (!videoRef.current) return;
+
+        const savedTime = videoRef.current.currentTime;
+        const wasPlaying = !videoRef.current.paused;
+
+        setCurrentQuality(qualityObj);
+        setCurrentSrc(qualityObj.url);
+
+        localStorage.setItem(STORAGE_KEYS.QUALITY, qualityObj.label);
+
+        const restorePosition = () => {
+            videoRef.current.currentTime = savedTime;
+            if (wasPlaying) {
+                videoRef.current.play();
+            }
+        };
+        
+        videoRef.current.addEventListener('loadedmetadata', restorePosition, { once: true });
+
     }, []);
 
     const handlePipToggle = useCallback(async () => {
@@ -293,7 +344,10 @@ export const OssPlayer = ({
         handleVolumeChange,
         handleMuteToggle,
         showSubtitles,
-        subtitlesSrc
+        subtitlesSrc,
+        qualities,
+        currentQuality,
+        handleChangeQuality,
     };
 
     return (
@@ -310,7 +364,7 @@ export const OssPlayer = ({
             >
                 <video
                     ref={videoRef}
-                    src={src}
+                    src={currentSrc}
                     onDurationChange={handleDurationChange}
                     onTimeUpdate={handleTimeUpdate}
                     onEnded={() => setIsPlaying(false)}

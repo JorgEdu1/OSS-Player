@@ -9,6 +9,7 @@ import { SpeedControl } from './SpeedControl';
 import { SubtitlesButton } from './SubtitlesButton';
 import { SkipButtons } from './SkipButtons';
 import { PipButton } from './PipButton';
+import { QualityControl } from './QualityControl';
 
 export const Controls = ({ showSpeedControl }) => {
   const { stopPropagation, showSubtitles, subtitlesSrc } = usePlayer();
@@ -37,6 +38,8 @@ export const Controls = ({ showSpeedControl }) => {
           {showSpeedControl && (
             <SpeedControl />
           )}
+          
+          <QualityControl />
 
           {showSubtitles && subtitlesSrc && (
             <SubtitlesButton />
