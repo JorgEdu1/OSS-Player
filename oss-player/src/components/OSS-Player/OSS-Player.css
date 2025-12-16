@@ -7,6 +7,7 @@
     max-width: 800px;
     background: #000;
     cursor: pointer;
+    --oss-primary: #4facfe;
 
     display: flex;
     align-items: center;
@@ -56,7 +57,8 @@
 }
 
 .controls button:hover {
-    color: #c9c9c9;
+    color: var(--oss-primary);
+    filter: brightness(1.2);
 }
 
 /* =========================================
@@ -73,8 +75,9 @@
 
 .progress-bar-filled {
     height: 100%;
-    background: #fff;
+    background: var(--oss-primary);
     border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
 /* =========================================
@@ -161,7 +164,7 @@
     appearance: none;
     width: 14px;
     height: 14px;
-    background: #fff;
+    background: var(--oss-primary);
     border-radius: 50%;
     cursor: pointer;
 }
@@ -169,7 +172,7 @@
 .volume-slider::-moz-range-thumb {
     width: 14px;
     height: 14px;
-    background: #fff;
+    background: var(--oss-primary);
     border-radius: 50%;
     cursor: pointer;
     border: none;
@@ -228,7 +231,7 @@
 }
 
 .speed-menu li.active {
-    color: #4facfe;
+    color: var(--oss-primary);
     font-weight: bold;
 }
 
