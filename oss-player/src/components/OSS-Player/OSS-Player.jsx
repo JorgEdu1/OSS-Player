@@ -3,6 +3,11 @@ import './OSS-Player.css';
 import { PlayerContext } from './PlayerContext';
 import { Controls } from './Controls';
 
+const STORAGE_KEYS = {
+  VOLUME: 'oss-player-volume',
+  SPEED: 'oss-player-speed'
+};
+
 export const OssPlayer = ({
                               src,
                               showSpeedControl = true,
@@ -20,10 +25,18 @@ export const OssPlayer = ({
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [progress, setProgress] = useState(0);
+    const [volume, setVolume] = useState(() => {
+        const saved = localStorage.getItem(STORAGE_KEYS.VOLUME);
+        return saved !== null ? parseFloat(saved) : 1;
+    });
+    const [playbackSpeed, setPlaybackSpeed] = useState(() => {
+        const saved = localStorage.getItem(STORAGE_KEYS.SPEED);
+        return saved !== null ? parseFloat(saved) : 1;
+    });
     const [isFullscreen, setIsFullscreen] = useState(false);
-    const [volume, setVolume] = useState(1);
     const [isVolumeControlVisible, setIsVolumeControlVisible] = useState(false);
     const [isPip, setIsPip] = useState(false)
+
 
     const handlePlayPause = useCallback(() => {
         if (videoRef.current.paused) {
@@ -33,6 +46,14 @@ export const OssPlayer = ({
             videoRef.current.pause();
             setIsPlaying(false);
         }
+    }, []);
+
+    const handleChangeSpeed = useCallback((newSpeed) => {
+        setPlaybackSpeed(newSpeed);
+        if (videoRef.current) {
+            videoRef.current.playbackRate = newSpeed;
+        }
+        localStorage.setItem(STORAGE_KEYS.SPEED, newSpeed);
     }, []);
 
     const handleSkip = useCallback((amount) => {
@@ -108,7 +129,8 @@ export const OssPlayer = ({
             videoRef.current.volume = clampedVolume;
             videoRef.current.muted = clampedVolume === 0;
         }
-
+        localStorage.setItem(STORAGE_KEYS.VOLUME, clampedVolume);
+        
         if (clampedVolume > 0) {
             lastVolumeRef.current = clampedVolume;
         }
@@ -221,7 +243,7 @@ export const OssPlayer = ({
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [volume, handlePlayPause, handleFullscreen, handleMuteToggle, updateVolume]);
+    }, [volume, handlePlayPause, handlePipToggle, handleSkip, handleFullscreen, handleMuteToggle, updateVolume]);
 
     const providerValue = {
         videoRef,
@@ -233,8 +255,10 @@ export const OssPlayer = ({
         isFullscreen,
         isPip,
         volume,
+        playbackSpeed,
         isVolumeControlVisible,
         handlePlayPause,
+        handleChangeSpeed,
         handleSkip,
         handlePipToggle,
         handleDurationChange,
@@ -266,7 +290,9 @@ export const OssPlayer = ({
                     onEnded={() => setIsPlaying(false)}
                     onLoadedData={() => {
                         if(videoRef.current) {
-                            videoRef.current.volume = volume;
+                            videoRef.current.volume = volume; 
+                            videoRef.current.muted = volume === 0;
+                            videoRef.current.playbackRate = playbackSpeed;
                         }
                     }}
                 >
