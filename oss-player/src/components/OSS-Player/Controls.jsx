@@ -11,7 +11,7 @@ import { SkipButtons } from './SkipButtons';
 import { PipButton } from './PipButton';
 import { QualityControl } from './QualityControl';
 
-export const Controls = ({ showSpeedControl }) => {
+export const Controls = ({ showSpeedControl, showSkipControls }) => {
   const { stopPropagation, showSubtitles, subtitlesSrc } = usePlayer();
 
   return (
@@ -28,7 +28,10 @@ export const Controls = ({ showSpeedControl }) => {
         </div>
 
         <div className="controls-center">
-          <SkipButtons />
+          {showSkipControls && (
+            <SkipButtons />
+          )}
+          
           <PlayPauseButton />
           <VolumeControl />
         </div>
@@ -44,6 +47,7 @@ export const Controls = ({ showSpeedControl }) => {
           {showSubtitles && subtitlesSrc && (
             <SubtitlesButton />
           )}
+          
           <PipButton />
           <FullscreenButton />
         </div>
