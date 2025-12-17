@@ -62,6 +62,8 @@ export const OssPlayer = (props) => {
   const [duration, setDuration] = useState(0);
   const [progress, setProgress] = useState(0);
   
+  const [isSubtitleActive, setIsSubtitleActive] = useState(true);
+
   const [volume, setVolume] = useState(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.VOLUME);
     return saved !== null ? parseFloat(saved) : 1;
@@ -76,6 +78,22 @@ export const OssPlayer = (props) => {
   const [isVolumeControlVisible, setIsVolumeControlVisible] = useState(false);
   const [isPip, setIsPip] = useState(false)
   const [showControls, setShowControls] = useState(true);
+
+  const handleSubtitleToggle = useCallback(() => {
+    const video = videoRef.current;
+    
+    if (video && video.textTracks && video.textTracks.length > 0) {
+      const track = video.textTracks[0]; 
+      
+      if (track.mode === 'showing') {
+        track.mode = 'hidden';
+        setIsSubtitleActive(false);
+      } else {
+        track.mode = 'showing';
+        setIsSubtitleActive(true);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (showSubtitles && !subtitlesSrc) {
@@ -277,13 +295,14 @@ export const OssPlayer = (props) => {
     handlePlayPause, handleChangeSpeed, handleSkip, handlePipToggle, handleDurationChange, handleTimeUpdate, handleSeek, handleVideoClick, stopPropagation, handleFullscreen, handleVolumeChange, handleMuteToggle,
     qualities, currentQuality, handleChangeQuality,
     showSubtitles, subtitlesSrc,
+    isSubtitleActive, handleSubtitleToggle
   };
 
   return (
     <PlayerContext.Provider value={providerValue}>
       <div
         className={`oss-player-wrapper ${showControls ? 'controls-visible' : 'controls-hidden'}`}
-        onClick={handleVideoClick}
+        onClick={() => { handleVideoClick(); handleInteraction(); }}
         ref={playerWrapperRef}
         onDoubleClick={handleFullscreen}
         onMouseMove={handleInteraction}
@@ -297,6 +316,10 @@ export const OssPlayer = (props) => {
           onDurationChange={handleDurationChange}
           onTimeUpdate={handleTimeUpdate}
           onEnded={() => setIsPlaying(false)}
+          
+          onMouseMove={handleInteraction}
+          onClick={(e) => { e.stopPropagation(); handleVideoClick(); handleInteraction(); }}
+          
           onLoadedData={() => {
             if(videoRef.current) {
               videoRef.current.volume = volume; 
@@ -306,7 +329,13 @@ export const OssPlayer = (props) => {
           }}
         >
           {showSubtitles && subtitlesSrc && (
-            <track kind="subtitles" src={subtitlesSrc} srcLang="pt" label="Português" default />
+            <track 
+              kind="subtitles" 
+              src={subtitlesSrc} 
+              srcLang="pt" 
+              label="Português" 
+              default 
+            />
           )}
         </video>
 

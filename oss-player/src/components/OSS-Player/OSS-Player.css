@@ -6,17 +6,31 @@
     width: 100%;
     max-width: 800px;
     background: #000;
-    cursor: pointer;
     --oss-primary: #4facfe;
 
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    pointer-events: auto; 
+}
+
+.oss-player-wrapper:fullscreen {
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .oss-player-wrapper video {
     width: 100%;
     display: block;
+
+    pointer-events: none; 
+    height: 100%;
+    object-fit: contain; 
 }
 
 /* =========================================
@@ -30,23 +44,25 @@
     background-image: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
     padding: 10px 15px;
     box-sizing: border-box;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
+    
     display: flex;
     flex-direction: column;
+    
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease-in-out, visibility 0.3s;
+    z-index: 2147483647; 
+    pointer-events: auto; 
 }
 
 .oss-player-wrapper.controls-visible .controls {
-  opacity: 1;
-  visibility: visible;
-  cursor: default;
+    opacity: 1;
+    visibility: visible;
+    cursor: default;
 }
 
 .oss-player-wrapper.controls-hidden {
-  cursor: none;
+    cursor: none;
 }
 
 /* =========================================
@@ -246,11 +262,11 @@
 
 /* --- SKIP BUTTONS --- */
 .skip-buttons-wrapper {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .skip-buttons-wrapper button {
-  font-size: 22px;
-  margin: 0 5px;
+    font-size: 22px;
+    margin: 0 5px;
 }
