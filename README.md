@@ -121,3 +121,10 @@ Este projeto foi desenvolvido como parte da disciplina de **Reuso de Software**.
 * **Arquitetura:** Mini-LPS baseada em Componentização React.
 * **Mecanismo de Variabilidade:** Renderização Condicional baseada em Props e Presets (Runtime Variability).
 * **Gerenciamento de Estado:** React Context API + Hooks.
+
+---
+
+## 👥 Autores
+
+* **Jorge Eduardo Silva Sousa - 542051**
+* **Matheus Conrado Pires - 536536**
